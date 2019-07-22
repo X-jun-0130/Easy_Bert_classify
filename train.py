@@ -62,4 +62,4 @@ for epoch in range(pm.num_epochs):
         if P > best:
             best = P
             print("Saving model...")
-            saver.save(session, save_path, global_step=(epoch*num_batchs))
+            saver.save(session, save_path, global_step=((epoch+1)*num_batchs))
