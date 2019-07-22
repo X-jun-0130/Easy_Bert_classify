@@ -1,6 +1,6 @@
 # Easy_Bert_classify
 运用Bert进行文本分类
-
+使用1080ti 11G GPU, 如果GPU比较小的话，建议调小batch_size, 否则很容易OOM!
 
 ![bert_classify](https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/bert_classify.png)
 # 数据集：
