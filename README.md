@@ -12,3 +12,5 @@ cnews.val.txt: 验证集(500*10)
 cnews.test.txt: 测试集(1000*10)
 
 训练所用的数据，以及训练好的词向量可以下载：链接: https://pan.baidu.com/s/1daGvDO4UBE5NVrcLaCGeqA 提取码: 9x3i 
+# 预训练的bert中文模型：
+地址链接：https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip
