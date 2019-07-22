@@ -149,7 +149,7 @@ for epoch in range(pm.num_epochs):
         if P > best:
             best = P
             print("Saving model...")
-            saver.save(session, save_path, global_step=(epoch*num_batchs))
+            saver.save(session, save_path, global_step=((epoch+1)*num_batchs))
 每个epoch结束，输出训练模型在测试集(1000*10)上的准确率，模型有进步时，保存当前模型。
 ```
 
