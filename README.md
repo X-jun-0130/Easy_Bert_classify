@@ -68,7 +68,7 @@ mask矩阵，句子原长度部分，权重值为1，padding得来的部分，�
 ```
 
 ## bert_classify.py
-bert模型
+bert模型:
 ```
 with tf.variable_scope('bert'):
     bert_embedding = modeling.BertModel(config=bert_config,
@@ -79,9 +79,31 @@ with tf.variable_scope('bert'):
                                         use_one_hot_embeddings=False)
 
     embedding_inputs = bert_embedding.get_sequence_output()
-```
-模型输出：
-```
-is_training=True表示进行finetune,use_one_hot_embeddings=False表示不使用TPU。
+is_training=True表示进行finetune,  use_one_hot_embeddings=False表示不使用TPU。
 bert_embedding.get_sequence_output()输出数据形式[batch_size,seq_length,hidden_dim],hidden_dim=712
 ```
+分类：
+```
+with tf.variable_scope('fully_connected'):
+    output = embedding_inputs[:, 0, :]
+    output = tf.layers.dropout(output, keep_pro)
+    final_out = tf.layers.dense(output, pm.num_classes)
+    score = tf.nn.softmax(final_out)
+    predict = tf.argmax(score, 1)
+取每一句中CLS位置的值作为全连接层的输入，然后进行softmax
+```
+优化器：
+```
+with tf.variable_scope('optimizer'):
+    num_train_steps = int((length_text) / pm.batch_size * pm.num_epochs)
+    num_warmup_steps = int(num_train_steps * 0.1)  # 总的迭代次数 * 0.1 ,这里的0.1 是官方给出的，我直接写过来了
+    train_op = optimization.create_optimizer(loss, pm.lr, num_train_steps, num_warmup_steps, False)
+ 官方提供的 optimization 主要是学习速率可以动态调整，如下面简图，学习速率由小到大，峰值就是设置的lr,然后在慢慢变小，
+ 整个学习速率，呈现三角形
+
+                 -
+               -      -
+             -          -
+           -                 -
+```
+
