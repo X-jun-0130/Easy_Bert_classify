@@ -1,5 +1,7 @@
 # Easy_Bert_classify
 运用Bert进行文本分类
+
+
 ![bert_classify](https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/bert_classify.png)
 # 数据集：
 本实验是使用THUCNews的一个子集进行训练与测试，数据集请自行到THUCTC：一个高效的中文文本分类工具包下载，请遵循数据提供方的开源协议;
