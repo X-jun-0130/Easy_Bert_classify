@@ -66,3 +66,22 @@ mask矩阵，句子原长度部分，权重值为1，padding得来的部分，�
 
 在padding时，不足部分补0；text2id.append(0)，mask_.append(0)，segment.append(0)
 ```
+
+## bert_classify.py
+bert模型
+```
+with tf.variable_scope('bert'):
+    bert_embedding = modeling.BertModel(config=bert_config,
+                                        is_training=True,
+                                        input_ids=input_x,
+                                        input_mask=mask,
+                                        token_type_ids=input_segment,
+                                        use_one_hot_embeddings=False)
+
+    embedding_inputs = bert_embedding.get_sequence_output()
+```
+模型输出：
+```
+is_training=True表示进行finetune,use_one_hot_embeddings=False表示不使用TPU。
+bert_embedding.get_sequence_output()输出数据形式[batch_size,seq_length,hidden_dim],hidden_dim=712
+```
