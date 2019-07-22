@@ -91,6 +91,7 @@ with tf.variable_scope('fully_connected'):
     score = tf.nn.softmax(final_out)
     predict = tf.argmax(score, 1)
 取每一句中CLS位置的值作为全连接层的输入，然后进行softmax
+另外，如果做NER的话，那是输入就是bert_embedding.get_sequence_output()。
 ```
 优化器：
 ```
@@ -152,6 +153,10 @@ for epoch in range(pm.num_epochs):
 ```
 
 模型大致流程如此，仅作为展示，我只跑了5个epoch, epoch1的准确率已到达90%以上，最优结果时第四个epoch，准确率94.37%。自己实际使用bert时，可以先设置epoch为20.
+
+
 ![epoch1](https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/epoch1.png)
 ![epoch4](https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/epoch4.png)
+
+
 最后，我并没有写如何调用训练好的已保存的分类模型(predict.py)。这个部分很简单，直接调用最后一次保存的模型就好了。进行预测的话，train.py中的evaluate函数可以直接拿来用。
