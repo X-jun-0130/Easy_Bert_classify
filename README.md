@@ -107,3 +107,48 @@ with tf.variable_scope('optimizer'):
            -                 -
 ```
 
+获取预训练bert模型中所有的训练参数。
+```
+# 获取模型中所有的训练参数。
+tvars = tf.trainable_variables()
+# 加载BERT模型
+(assignment_map, initialized_variable_names) = modeling.get_assignment_map_from_checkpoint(tvars, pm.init_checkpoint)
+
+tf.train.init_from_checkpoint(pm.init_checkpoint, assignment_map)
+
+tf.logging.info("**** Trainable Variables ****")
+# 打印加载模型的参数
+for var in tvars:
+    init_string = ""
+    if var.name in initialized_variable_names:
+        init_string = ", *INIT_FROM_CKPT*"
+    tf.logging.info("  name = %s, shape = %s%s", var.name, var.shape,
+                    init_string)
+session = tf.Session()
+session.run(tf.global_variables_initializer())
+```
+## train.py
+模型训练
+```
+for epoch in range(pm.num_epochs):
+        print('Epoch:', epoch + 1)
+        num_batchs = int((len(label) - 1) / pm.batch_size) + 1
+        batch_train = batch_iter(input_id, input_segment_, mask_, label, pm.batch_size)
+        for x_id, x_segment, x_mask, y_label in batch_train:
+            n += 1
+            feed_dict = feed_data(x_id, x_mask, x_segment, y_label, pm.keep_prob)
+            _,  train_summary, train_loss, train_accuracy = session.run([train_op, merged_summary,
+                                                                        loss, accuracy], feed_dict=feed_dict)
+            if n % 100 == 0:
+                print('步骤:', n, '损失值:', train_loss, '准确率:', train_accuracy)
+
+        P = evaluate(session, test_id, test_segment, test_mask, test_label)
+        print('测试集准确率:', P)
+        if P > best:
+            best = P
+            print("Saving model...")
+            saver.save(session, save_path, global_step=(epoch*num_batchs))
+每个epoch结束，输出训练模型在测试集(1000*10)上的准确率，保存当前最优的模型。
+```
+
+模型大致流程如此，最后，我并没有写如何调用训练好的已保存的分类模型(predict.py)。这个部分很简单，直接调用最后一次保存的模型就好了。进行预测的话，train.py中的evaluate函数可以直接拿来用。
