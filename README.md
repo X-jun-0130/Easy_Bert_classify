@@ -49,7 +49,7 @@ cnews.test.txt: 测试集(1000*10)
         input_segment.append(segment)
         mask.append(mask_)
 ```
-## input_id,input_segment,mask为bert模型输入数据
+### input_id,input_segment,mask为bert模型输入数据
 ```
 tokenizer = tokenization.FullTokenizer(vocab_file=pm.vocab_filename, do_lower_case=False) 加载预训练bert模型的中文词典
 text = tokenizer.tokenize(eachline)  将句子转换成 字列表，如：输入“你好”，返回['你','好']
@@ -59,4 +59,10 @@ text.append("[SEP]")
 返回数据为：['CLS','你','好','SEP']
 然后将列表字转换成数字，还是利用bert中文字典，
 text2id = tokenizer.convert_tokens_to_ids(text) 将字列表 变成 数字列表
+
+segemnt表示输入的句子是段落几，第一段落用0表示，第二段落用1表示，...。bert能够接受的中文句子长度为512，大于这个长度可以分段输入。
+
+mask矩阵，句子原长度部分，权重值为1，padding得来的部分，权重值为0
+
+在padding时，不足部分补0；text2id.append(0)，mask_.append(0)，segment.append(0)
 ```
