@@ -49,6 +49,8 @@ cnews.test.txt: 测试集(1000*10)
         input_segment.append(segment)
         mask.append(mask_)
 ```
+## input_id,input_segment,mask为bert模型输入数据
+```
 tokenizer = tokenization.FullTokenizer(vocab_file=pm.vocab_filename, do_lower_case=False) 加载预训练bert模型的中文词典
 text = tokenizer.tokenize(eachline)  将句子转换成 字列表，如：输入“你好”，返回['你','好']
 bert需要在字列表首位添加 "[CLS]"，尾部添加"[SEP]"字符
@@ -57,3 +59,4 @@ text.append("[SEP]")
 返回数据为：['CLS','你','好','SEP']
 然后将列表字转换成数字，还是利用bert中文字典，
 text2id = tokenizer.convert_tokens_to_ids(text) 将字列表 变成 数字列表
+```
