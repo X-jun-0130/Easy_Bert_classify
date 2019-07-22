@@ -22,3 +22,38 @@ cnews.test.txt: 测试集(1000*10)
 # 代码分析
 ## parameters.py
 超参数存放位置，修改模型参数，可改动内部数据
+
+## data_process.py
+数据处理代码，重点介绍，如何处理成bert模型所需样式。
+```
+    for i in range(len(content)):
+        eachline = content[i]
+        eachline = eachline[0:pm.seq_length-2]
+        text = tokenizer.tokenize(eachline) #将句子变成 字序列
+        text.insert(0, "[CLS]")
+        text.append("[SEP]")
+        text2id = tokenizer.convert_tokens_to_ids(text) #将字序列 变成 数字序列
+        segment = [0] * len(text2id)
+        mask_ = [1] * len(text2id)
+        _label = cat_to_id[labels[i]]
+        while len(text2id) < pm.seq_length:
+            text2id.append(0)
+            mask_.append(0)
+            segment.append(0)
+        assert len(text2id) == pm.seq_length
+        assert len(mask_) == pm.seq_length
+        assert len(segment) == pm.seq_length
+
+
+        input_id.append(text2id)
+        input_segment.append(segment)
+        mask.append(mask_)
+```
+tokenizer = tokenization.FullTokenizer(vocab_file=pm.vocab_filename, do_lower_case=False) 加载预训练bert模型的中文词典
+text = tokenizer.tokenize(eachline)  将句子转换成 字列表，如：输入“你好”，返回['你','好']
+bert需要在字列表首位添加 "[CLS]"，尾部添加"[SEP]"字符
+text.insert(0, "[CLS]")
+text.append("[SEP]")
+返回数据为：['CLS','你','好','SEP']
+然后将列表字转换成数字，还是利用bert中文字典，
+text2id = tokenizer.convert_tokens_to_ids(text) 将字列表 变成 数字列表
