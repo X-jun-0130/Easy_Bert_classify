@@ -14,4 +14,4 @@ cnews.test.txt: 测试集(1000*10)
 训练所用的数据，以及训练好的词向量可以下载：链接: https://pan.baidu.com/s/1daGvDO4UBE5NVrcLaCGeqA 提取码: 9x3i 
 # 预训练的bert中文模型：
 地址链接：https://storage.googleapis.com/bert_models/2018_11_03/chinese_L-12_H-768_A-12.zip
-存储为如此形式：https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/bert_model.png
+![存储为如此形式：](https://github.com/NLPxiaoxu/Easy_Bert_classify/blob/master/image/bert_model.png)
