@@ -160,3 +160,5 @@ for epoch in range(pm.num_epochs):
 
 
 最后，我并没有写如何调用训练好的已保存的分类模型(predict.py)。这个部分很简单，直接调用最后一次保存的模型就好了。进行预测的话，train.py中的evaluate函数可以直接拿来用。
+
+## 最后的最后，欢迎star和fork
