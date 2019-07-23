@@ -81,7 +81,7 @@ with tf.variable_scope('bert'):
 
     embedding_inputs = bert_embedding.get_sequence_output()
 is_training=True表示进行finetune,  use_one_hot_embeddings=False表示不使用TPU。
-bert_embedding.get_sequence_output()输出数据形式[batch_size,seq_length,hidden_dim],hidden_dim=712
+bert_embedding.get_sequence_output()输出数据形式[batch_size,seq_length,hidden_dim],hidden_dim=768
 ```
 分类：
 ```
